@@ -17,10 +17,10 @@ router.get("/", (req, res) => {
   });
 
   router.post("/new",(req, res) => {
-    database.addTeacher(teacher)
+    database.addTeacher(teachers)
     .then((data) => {
-      const teacher = data.rows;
-      res.redirect(`/teachers/${teacher[0].id}`)
+      const teachers = data.rows;
+      res.redirect(`/teachers/${teachers[0].id}`)
     })
     .catch((error) => {
       console.log(error);

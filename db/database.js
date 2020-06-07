@@ -11,7 +11,6 @@ const getAllTeachers = () => {
   return db.query(querySQL)
   .then(res => {
     if (res.rows) {
-      console.log(res)
       return res
     } else {
     return null
