@@ -16,11 +16,14 @@ router.get("/", (req, res) => {
     });
   });
 
-  router.post("/new",(req, res) => {
-    database.addTeacher(teachers)
+  router.post("/register",(req, res) => {
+    const teacher = req.body;
+    console.log(teacher)
+    database.addTeacher(teacher)
     .then((data) => {
-      const teachers = data.rows;
-      res.redirect(`/teachers/${teachers[0].id}`)
+      consol
+      const regTeacher = data.rows;
+      res.redirect(`/teachers/${regTeacher[0].id}`)
     })
     .catch((error) => {
       console.log(error);
@@ -28,3 +31,4 @@ router.get("/", (req, res) => {
   });
 
 module.exports = router;
+
