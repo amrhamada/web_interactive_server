@@ -1,24 +1,24 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../db/database');
 
+module.exports = (dbHelpers) => {
 /* GET teachers listing. */
-router.get("/", (req, res) => {
-  database.getAllTeachers()
-  .then(data => {
-    const teachers = data.rows;
-    res.json({ teachers });
-  })
-  .catch(err => {
-    res
-    .status(500)
-    .json({ error: err.message });
-    });
+  router.get("/", (req, res) => {
+    dbHelpers.getAllTeachers()
+    .then(data => {
+      const teachers = data.rows;
+      res.json({ teachers });
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+      });
   });
 
   router.post("/register",(req, res) => {
     const teacher = req.body;
-    database.regTeacher(teacher)
+    dbHelpers.regTeacher(teacher)
     .then((data) => {
       if (data.error) {
         return res
@@ -37,7 +37,7 @@ router.get("/", (req, res) => {
 
   router.post("/login",(req, res) => {
     const teacher = req.body;
-    database.findTeacher(teacher)
+    dbHelpers.findTeacher(teacher)
     .then((data) => {
       const professor = data.rows;
       res.json( { id:`${professor[0].id}`, 
@@ -54,5 +54,6 @@ router.get("/", (req, res) => {
     });
   });
 
-module.exports = router;
+  return router;
 
+}

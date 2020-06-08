@@ -12,6 +12,12 @@ const indexRouter = require('./routes/indexRouter');
 const teachersRouter = require('./routes/teachersRouter');
 
 const app = express();
+// PG database client/connection setup
+const { Pool } = require('pg');
+const dbParams = require('./lib/db');
+const db = new Pool(dbParams);
+
+db.connect();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,10 +28,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//endpoint helpers
+const teacherHelpers = require('./helpers/teacherHelpers')(db);
 
 //endpoints
 app.use('/', indexRouter);
-app.use('/teachers', teachersRouter);
+app.use('/teachers', teachersRouter(teacherHelpers));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
