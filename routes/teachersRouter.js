@@ -18,15 +18,20 @@ router.get("/", (req, res) => {
 
   router.post("/register",(req, res) => {
     const teacher = req.body;
-    console.log(teacher)
-    database.addTeacher(teacher)
+    database.regTeacher(teacher)
     .then((data) => {
-      consol
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }
       const regTeacher = data.rows;
-      res.redirect(`/teachers/${regTeacher[0].id}`)
+      res.json( {id:`${regTeacher[0].id}`, email:`${regTeacher[0].email}`})
     })
-    .catch((error) => {
-      console.log(error);
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
     });
   });
 

@@ -22,8 +22,8 @@ const getAllTeachers = () => {
 exports.getAllTeachers = getAllTeachers;
 
 // get Teacher by email
-const getTeacherByEmail = () => {
-  const querySQL = `SELECT * FROM teachers where email= ${email}`
+const getTeacherByEmail = (teacher) => {
+  const querySQL = `SELECT * FROM teachers where email= ${teacher.email}`
   return db.query(querySQL)
   .then(res => {
     if (res.rows) {
@@ -52,12 +52,14 @@ const findTeacher = (eml, pass) => {
   .catch(err => console.log('error', err))
 };
 exports.findTeacher = findTeacher;
-// add Teacher
-const addTeacher = (teacher) => {
+
+// Register a Teacher
+const regTeacher = (teacher) => {
+  const hashedPass = bcrypt.hashSync(teacher.password, 10);
   const querySQL = `INSERT INTO teachers (first_name, last_name, email, avatar, password )
   VALUES ( $1, $2, $3, $4, $5)
   RETURNING *`
-  return db.query(querySQL, [teacher.first_name, teacher.last_name, teacher.email, teacher.avatar, teacher.password])
+  return db.query(querySQL, [teacher.first_name, teacher.last_name, teacher.email, teacher.avatar, hashedPass])
   .then(res => {
     if(res.rows){
       return res;
@@ -65,7 +67,15 @@ const addTeacher = (teacher) => {
       return null
     }
   })
-  .catch(err => console.log('error', err))
+  .catch(err => {
+    //duplicate key value violates unique constraint
+    if (err.code === '23505') {
+      return { error:  err.detail }
+    }  else {
+      throw err
+    }
+  })
 };
-exports.addTeacher = addTeacher;
+exports.regTeacher = regTeacher;
+
 
