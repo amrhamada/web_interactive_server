@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const database = require('../db/database');
+const bcrypt = require('bcrypt')
 
 /* GET teachers listing. */
-router.get("/", (req, res) => {
+router.get("/teachers", (req, res) => {
   database.getAllTeachers()
   .then(data => {
     const teachers = data.rows;
@@ -40,12 +41,16 @@ router.get("/", (req, res) => {
     database.findTeacher(teacher)
     .then((data) => {
       const professor = data.rows;
-      res.json( { id:`${professor[0].id}`, 
-                  first_name:`${professor[0].first_name}`,
-                  last_name:`${professor[0].last_name}`,
-                  email:`${professor[0].email}`,
-                  avatar:`${professor[0].avatar}`,
-                })
+      if (professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
+        res.json( { id:`${professor[0].id}`, 
+                    first_name:`${professor[0].first_name}`,
+                    last_name:`${professor[0].last_name}`,
+                    email:`${professor[0].email}`,
+                    avatar:`${professor[0].avatar}`,
+                  })
+      } else {
+        res.send(401)
+      }
     })
     .catch((err) => { 
       res

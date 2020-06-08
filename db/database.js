@@ -42,10 +42,7 @@ const findTeacher = (teacher) => {
   return db.query(querySQL, [teacher.email])
   .then(res => {
     if (res.rows.length > 0) {
-      const { email, password } = res.rows[0]
-      if (email === teacher.email && bcrypt.compareSync(teacher.password, password)) {
-        return res
-      }
+      return res
     } 
     return;
   })
