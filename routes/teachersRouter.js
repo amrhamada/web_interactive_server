@@ -35,5 +35,24 @@ router.get("/", (req, res) => {
     });
   });
 
+  router.post("/login",(req, res) => {
+    const teacher = req.body;
+    database.findTeacher(teacher)
+    .then((data) => {
+      const professor = data.rows;
+      res.json( { id:`${professor[0].id}`, 
+                  first_name:`${professor[0].first_name}`,
+                  last_name:`${professor[0].last_name}`,
+                  email:`${professor[0].email}`,
+                  avatar:`${professor[0].avatar}`,
+                })
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
 module.exports = router;
 

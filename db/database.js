@@ -23,8 +23,8 @@ exports.getAllTeachers = getAllTeachers;
 
 // get Teacher by email
 const getTeacherByEmail = (teacher) => {
-  const querySQL = `SELECT * FROM teachers where email= ${teacher.email}`
-  return db.query(querySQL)
+  const querySQL = `SELECT * FROM teachers where email= $1`
+  return db.query(querySQL, [teacher.email])
   .then(res => {
     if (res.rows) {
       return res
@@ -37,14 +37,14 @@ const getTeacherByEmail = (teacher) => {
 exports.getTeacherByEmail = getTeacherByEmail
 
 //find a register Teacher 
-const findTeacher = (eml, pass) => {
-  const querySQL = `SELECT id, email, password, avatar FROM teachers WHERE email = '${eml}'`
-  return db.query(querySQL)
+const findTeacher = (teacher) => {
+  const querySQL = `SELECT * FROM teachers WHERE email = $1`
+  return db.query(querySQL, [teacher.email])
   .then(res => {
     if (res.rows.length > 0) {
-      const {id, email, password, avatar} = res.rows[0]
-      if (email === eml && bcrypt.compareSync(pass, password)) {
-        return id
+      const { email, password } = res.rows[0]
+      if (email === teacher.email && bcrypt.compareSync(teacher.password, password)) {
+        return res
       }
     } 
     return;
