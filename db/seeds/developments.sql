@@ -1,15 +1,15 @@
 -- Teachers table seeds here (Example)
 INSERT INTO teachers (id, first_name, last_name, email, avatar, password) VALUES 
-(1, 'Lera','Hahn','lera_hahn@dickens.org','https://i.imgur.com/LpaY82x.png','!@#45zaq'),
-(2, 'Darius','Homenick','darius.homenick@tod.ca','https://i.imgur.com/Nmx0Qxo.png','!@#45zaq'),
-(3, 'Mcdermott','Maxie','mcdermott.maxie@schoen.com','https://i.imgur.com/T2WwVfS.png','!@#45zaq'),
-(4, 'Derrick','Pollich','derrick.pollich@gmail.com','https://i.imgur.com/FK8V841.jpg','!@#45zaq'),
-(5, 'Ebba','Deckow','ebba.deckow@yahoo.com','https://i.imgur.com/twYrpay.jpg','!@#45zaq'),
-(6, 'Miguel','Barrows','miguel.barrows@yahoo.com','https://i.imgur.com/TdOAdde.jpg','!@#45zaq'),
-(7, 'Alysha','Daniel','alysha.daniel@boyer.tv','https://i.imgur.com/3tVgsra.jpg','!@#45zaq'),
-(8, 'Bradtke','Mallie','bradtke.mallie@yahoo.com','https://i.imgur.com/iHq8K8Z.jpg','!@#45zaq'),
-(9, 'Kattie','Dibbert','kattie.dibbert@winnifred.name','https://i.imgur.com/nPywAp1.jpg','!@#45zaq'),
-(10, 'Elisha','Wisoky','elisha.wisoky@gmail.com','https://i.imgur.com/okB9WKC.jpg','!@#45zaq');
+(1, 'Lera','Hahn','lera_hahn@dickens.org','https://i.imgur.com/LpaY82x.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(2, 'Darius','Homenick','darius.homenick@tod.ca','https://i.imgur.com/Nmx0Qxo.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(3, 'Mcdermott','Maxie','mcdermott.maxie@schoen.com','https://i.imgur.com/T2WwVfS.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(4, 'Derrick','Pollich','derrick.pollich@gmail.com','https://i.imgur.com/FK8V841.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(5, 'Ebba','Deckow','ebba.deckow@yahoo.com','https://i.imgur.com/twYrpay.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(6, 'Miguel','Barrows','miguel.barrows@yahoo.com','https://i.imgur.com/TdOAdde.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(7, 'Alysha','Daniel','alysha.daniel@boyer.tv','https://i.imgur.com/3tVgsra.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(8, 'Bradtke','Mallie','bradtke.mallie@yahoo.com','https://i.imgur.com/iHq8K8Z.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(9, 'Kattie','Dibbert','kattie.dibbert@winnifred.name','https://i.imgur.com/nPywAp1.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(10, 'Elisha','Wisoky','elisha.wisoky@gmail.com','https://i.imgur.com/okB9WKC.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.');
 
 INSERT INTO grades (id, name) VALUES 
 (1, 'Preschool'),
