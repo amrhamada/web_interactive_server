@@ -68,7 +68,7 @@ const regTeacher = (teacher) => {
     }
   })
   .catch(err => {
-    //duplicate key value violates unique constraint
+    //duplicate key value violates unique constraint https://www.postgresql.org/docs/current/errcodes-appendix.html
     if (err.code === '23505') {
       return { error:  err.detail }
     }  else {
