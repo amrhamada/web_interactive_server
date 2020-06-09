@@ -19,6 +19,7 @@ module.exports = (dbHelpers) => {
 
   router.post("/register",(req, res) => {
     const teacher = req.body;
+    teacher.password = bcrypt.hashSync(teacher.password, 10);
     dbHelpers.regTeacher(teacher)
     .then((data) => {
       if (data.error) {
