@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm ./bin/www",
+    "start": "node ./bin/www",
     "db:reset": "node bin/resetdb.js",
     "local": "./node_modules/.bin/nodemon --watch server -e js server/app.js"
   },
