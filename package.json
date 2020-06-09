@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx nodemon ./bin/www",
-    "db:reset": "node bin/resetdb.js"
+    "start": "npm ./bin/www",
+    "db:reset": "node bin/resetdb.js",
+    "local": "./node_modules/.bin/nodemon --watch server -e js server/app.js"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",
@@ -20,5 +21,8 @@
     "nodemon": "^2.0.4",
     "pg": "^8.2.1",
     "pg-native": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
   }
 }

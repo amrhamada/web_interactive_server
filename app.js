@@ -8,7 +8,7 @@ const cookieSession = require('cookie-session');
 const logger = require('morgan');
 
 //Routes
-const indexRouter = require('./routes/indexRouter');
+const gameRouter = require('./routes/gameRouter');
 const teachersRouter = require('./routes/teachersRouter');
 
 const app = express();
@@ -34,9 +34,9 @@ app.use(cookieSession({
 
 //endpoint helpers
 const teacherHelpers = require('./helpers/teacherHelpers')(db);
-
+const gameHelpers = require('./helpers/gameHelpers')(db);
 //endpoints
-app.use('/index', indexRouter);
+app.use('/games', gameRouter(gameHelpers));
 app.use('/', teachersRouter(teacherHelpers));
 
 // catch 404 and forward to error handler
