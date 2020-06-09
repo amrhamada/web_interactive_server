@@ -20,7 +20,7 @@ INSERT INTO subjects (id, name) VALUES
 (1, 'Language'),
 (2, 'Science'),
 (3, 'Arts'),
-(4, 'Maths'),
+(4, 'Math'),
 (5, 'Music'),
 (6, 'Social and Emotional');
 
@@ -35,30 +35,30 @@ INSERT INTO types (id, name) VALUES
 (3, 'Match'),
 (4, 'Sorting');
 
-INSERT INTO games (id, grade_id, subject_id, types_id, teacher_id, level_id) VALUES
+INSERT INTO games (id, grade_id, subject_id, type_id, teacher_id, level_id) VALUES
 (1, 1, 4, 1, 2, 1),
 (2, 1, 4, 1, 2, 2),
 (3, 1, 1, 1, 2, 3);
 
 INSERT INTO game_images (id, game_id, image) VALUES
-(1, 1, 'https://imgur.com/3jRQIkk'),
-(2, 1, 'https://imgur.com/tZlcXH3'),
-(3, 1, 'https://imgur.com/wvzNHEy'),
-(4, 1, 'https://imgur.com/h61Ih2R'),
-(5, 2, 'https://imgur.com/vWUomyl'),
-(6, 2, 'https://imgur.com/dE58Scr'),
-(7, 2, 'https://imgur.com/qAUlof1'),
-(8, 2, 'https://imgur.com/GW08WYY'),
-(9, 2, 'https://imgur.com/d6MUltZ'),
-(10, 2, 'https://imgur.com/bCA6yKg'),
-(11, 3, 'https://imgur.com/Z9urASO'),
-(12, 3, 'https://imgur.com/oE2aeEf'),
-(13, 3, 'https://imgur.com/1nipnkq'),
-(14, 3, 'https://imgur.com/Y0b45XF'),
-(15, 3, 'https://imgur.com/1K8AKhI'),
-(16, 3, 'https://imgur.com/Qz7IX3x'),
-(17, 3, 'https://imgur.com/I9zmFor'),
-(18, 3, 'https://imgur.com/euq78Fz');
+(1, 1, 'https://i.imgur.com/3jRQIkk.png'),
+(2, 1, 'https://i.imgur.com/tZlcXH3.png'),
+(3, 1, 'https://i.imgur.com/wvzNHEy.png'),
+(4, 1, 'https://i.imgur.com/h61Ih2R.png'),
+(5, 2, 'https://i.imgur.com/vWUomyl.png'),
+(6, 2, 'https://i.imgur.com/dE58Scr.png'),
+(7, 2, 'https://i.imgur.com/qAUlof1.png'),
+(8, 2, 'https://i.imgur.com/GW08WYY.png'),
+(9, 2, 'https://i.imgur.com/d6MUltZ.png'),
+(10, 2, 'https://i.imgur.com/bCA6yKg.png'),
+(11, 3, 'https://i.imgur.com/Z9urASO.png'),
+(12, 3, 'https://i.imgur.com/oE2aeEf.png'),
+(13, 3, 'https://i.imgur.com/1nipnkq.png'),
+(14, 3, 'https://i.imgur.com/Y0b45XF.png'),
+(15, 3, 'https://i.imgur.com/1K8AKhI.png'),
+(16, 3, 'https://i.imgur.com/Qz7IX3x.png'),
+(17, 3, 'https://i.imgur.com/I9zmFor.png'),
+(18, 3, 'https://i.imgur.com/euq78Fz.png');
 
 INSERT INTO game_info (id, game_id, title, description) VALUES
 (1, 1, 'how many fingers','numbers with fingers'),

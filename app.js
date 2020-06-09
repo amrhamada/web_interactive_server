@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 //Routes
-const indexRouter = require('./routes/indexRouter');
+const gameRouter = require('./routes/gameRouter');
 const teachersRouter = require('./routes/teachersRouter');
 
 const app = express();
@@ -30,9 +30,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //endpoint helpers
 const teacherHelpers = require('./helpers/teacherHelpers')(db);
-
+const gameHelpers = require('./helpers/gameHelpers')(db);
 //endpoints
-app.use('/', indexRouter);
+app.use('/games', gameRouter(gameHelpers));
 app.use('/teachers', teachersRouter(teacherHelpers));
 
 // catch 404 and forward to error handler
