@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../db/database');
-const bcrypt = require('bcrypt')
 
+module.exports = (dbHelpers) => {
 /* GET teachers listing. */
 router.get("/teachers", (req, res) => {
   database.getAllTeachers()
@@ -19,7 +18,7 @@ router.get("/teachers", (req, res) => {
 
   router.post("/register",(req, res) => {
     const teacher = req.body;
-    database.regTeacher(teacher)
+    dbHelpers.regTeacher(teacher)
     .then((data) => {
       if (data.error) {
         return res
@@ -38,7 +37,7 @@ router.get("/teachers", (req, res) => {
 
   router.post("/login",(req, res) => {
     const teacher = req.body;
-    database.findTeacher(teacher)
+    dbHelpers.findTeacher(teacher)
     .then((data) => {
       const professor = data.rows;
       if (professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
@@ -59,5 +58,6 @@ router.get("/teachers", (req, res) => {
     });
   });
 
-module.exports = router;
+  return router;
 
+}
