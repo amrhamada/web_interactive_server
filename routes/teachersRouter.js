@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt')
 module.exports = (dbHelpers) => {
 /* GET teachers listing. */
 router.get("/teachers", (req, res) => {
-  database.getAllTeachers()
+  dbHelpers.getAllTeachers()
   .then(data => {
     const teachers = data.rows;
     res.json({ teachers });
