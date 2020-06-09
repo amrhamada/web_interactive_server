@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt')
-
 module.exports = db => {
   // get Teachers
   const getAllTeachers = () => {
@@ -35,11 +33,8 @@ module.exports = db => {
     return db.query(querySQL, [teacher.email])
     .then(res => {
       if (res.rows.length > 0) {
-        const { email, password } = res.rows[0]
-        if (email === teacher.email && bcrypt.compareSync(teacher.password, password)) {
           return res
         }
-      } 
       return;
     })
     .catch(err => console.log('error', err))
@@ -47,11 +42,10 @@ module.exports = db => {
  
   // Register a Teacher
   const regTeacher = (teacher) => {
-    const hashedPass = bcrypt.hashSync(teacher.password, 10);
     const querySQL = `INSERT INTO teachers (first_name, last_name, email, avatar, password )
     VALUES ( $1, $2, $3, $4, $5)
     RETURNING *`
-    return db.query(querySQL, [teacher.first_name, teacher.last_name, teacher.email, teacher.avatar, hashedPass])
+    return db.query(querySQL, [teacher.first_name, teacher.last_name, teacher.email, teacher.avatar, teacher.password])
     .then(res => {
       if(res.rows){
         return res;
