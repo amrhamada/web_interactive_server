@@ -3,19 +3,19 @@ const router = express.Router();
 const bcrypt = require('bcrypt')
 
 module.exports = (dbHelpers) => {
-/* GET teachers listing. */
-router.get("/teachers", (req, res) => {
-  dbHelpers.getAllTeachers()
-  .then(data => {
-    const teachers = data.rows;
-    res.json({ teachers });
-  })
-  .catch(err => {
-    res
-    .status(500)
-    .json({ error: err.message });
+  //* GET teachers listing. */
+  router.get("/teachers", (req, res) => {
+    dbHelpers.getAllTeachers()
+    .then(data => {
+      const teachers = data.rows;
+      res.json({ teachers });
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+      });
     });
-  });
 
   router.post("/register",(req, res) => {
     const teacher = req.body;
@@ -23,7 +23,6 @@ router.get("/teachers", (req, res) => {
     .then((data) => {
       if (data.error) {
         return res
-        
         .status(409)
         .json(data)
       }
@@ -51,7 +50,7 @@ router.get("/teachers", (req, res) => {
                   })
       } else {
         // wrong password - Unauthorized
-        res.status(401)
+        res.send(401)
       }
     })
     .catch((err) => { 
