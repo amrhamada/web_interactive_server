@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require('bcrypt')
 
 module.exports = (dbHelpers) => {
 /* GET teachers listing. */
@@ -22,6 +23,7 @@ router.get("/teachers", (req, res) => {
     .then((data) => {
       if (data.error) {
         return res
+        
         .status(409)
         .json(data)
       }
@@ -48,7 +50,8 @@ router.get("/teachers", (req, res) => {
                     avatar:`${professor[0].avatar}`,
                   })
       } else {
-        res.send(401)
+        // wrong password - Unauthorized
+        res.status(401)
       }
     })
     .catch((err) => { 
