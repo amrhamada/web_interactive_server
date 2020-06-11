@@ -39,6 +39,51 @@ const gameHelpers = require('./helpers/gameHelpers')(db);
 app.use('/games', gameRouter(gameHelpers));
 app.use('/', teachersRouter(teacherHelpers));
 
+//websocket
+
+const WebSocket = require('ws'),
+  server = new WebSocket.Server({
+    port:12345,
+  });
+  let clients=[];
+  let state = ""
+function broadcast(cl, data) {
+  console.log("broadCAsting")
+  server.clients.forEach(ws => {
+    let count = 1;
+    if (cl !== ws){
+      ws.send(data);
+      console.log("count:",count++)
+    }
+  });
+}
+server.on('connection', ws => {
+  clients.push(ws)
+  console.log("cleint count",clients.length)
+
+  ws.onmessage= (event) => {
+    if( event.data === "initial" ) {
+      console.log("init")
+        ws.send(clients.length)
+    } else if (event.data === "receive") {
+        ws.send(state)
+    } else {
+      // console.log("stateMotherfucker")
+      if (state !== event.data)  {
+        state= event.data
+        // console.log(state)
+        broadcast(ws,state)
+      // }
+      // console.log("broadcasting", data.data,req)
+    }
+  }
+  ws.on('close', data => {
+    clients = clients.filter(cl => cl !== ws )
+    console.log("cleint count3",clients.length)
+  })
+});
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
