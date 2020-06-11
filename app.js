@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 const cookieSession = require('cookie-session');
 const logger = require('morgan');
+const cors = require('cors');
 
 //Routes
 const gameRouter = require('./routes/gameRouter');
@@ -24,6 +25,7 @@ app.set('view engine', 'jade');
 
 //midleware
 app.use(logger('dev'));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
