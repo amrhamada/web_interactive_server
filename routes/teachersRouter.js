@@ -29,7 +29,12 @@ module.exports = (dbHelpers) => {
       }
       const regTeacher = data.rows;
       req.session.teacher_id = regTeacher[0].id;
-      res.json( {id:`${regTeacher[0].id}`, email:`${regTeacher[0].email}`})
+      res.json( { id:`${regTeacher[0].id}`, 
+                  first_name:`${regTeacher[0].first_name}`,
+                  last_name:`${regTeacher[0].last_name}`,
+                  email:`${regTeacher[0].email}`,
+                  avatar:`${regTeacher[0].avatar}`,
+                })
     })
     .catch((err) => { 
       res
