@@ -94,7 +94,6 @@ function broadcast(cl, state) {
   server.clients.forEach(ws => {
     if (cl !== ws){
       ws.send(JSON.stringify({subject:"state",state:JSON.parse(state)}));
-      console.log("sent to")
     }
   });
 }
