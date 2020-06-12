@@ -4,7 +4,6 @@ require("dotenv").config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-// const cookieSession = require('cookie-session');
 const logger = require('morgan');
 
 //Routes
@@ -15,6 +14,7 @@ const app = express();
 // PG database client/connection setup
 const { Pool } = require('pg');
 const dbParams = require('./lib/db');
+const { json } = require("express");
 const db = new Pool(dbParams);
 db.connect();
 
@@ -27,10 +27,6 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use(cookieSession({
-//   name: 'user-session',
-//   keys: ['a5376b06-97bf-4159-b737-22642a995dd4', '16aefe91-9211-4a1b-a9dc-fc738bf89e6f']
-// }));
 
 //endpoint helpers
 const teacherHelpers = require('./helpers/teacherHelpers')(db);
@@ -45,44 +41,56 @@ const WebSocket = require('ws'),
   server = new WebSocket.Server({
     port:12345,
   });
-  let clients=[];
-  let state = ""
-function broadcast(cl, data) {
-  console.log("broadCAsting")
-  server.clients.forEach(ws => {
-    let count = 1;
-    if (cl !== ws){
-      ws.send(data);
-      console.log("count:",count++)
-    }
-  });
-}
-server.on('connection', ws => {
-  clients.push(ws)
-  console.log("cleint count",clients.length)
+
+server.students = [];
+server.count = 0 ;
+let state = "";
+
+server.on('connection', (ws, req) => {
+  server.count++
 
   ws.onmessage= (event) => {
-    if( event.data === "initial" ) {
-      console.log("init")
-        ws.send(clients.length)
-    } else if (event.data === "receive") {
-        ws.send(state)
-    } else {
-      // console.log("stateMotherfucker")
-      if (state !== event.data)  {
-        state= event.data
-        // console.log(state)
+    const message = JSON.parse(event.data);
+    if( message.subject === "initial" ) {
+        if(server.count === 1) {
+          ws.send(JSON.stringify({subject:"initial"}))
+        } else {
+          ws.send(JSON.stringify({subject:"welcome"}))
+        }
+    } else if (message.subject === "receive") {
+        ws.send(JSON.stringify({subject:"state",state:JSON.parse(state)}))
+    } else if(message.subject === "player_move"){
+      if (state !== JSON.stringify(message.state))  {
+        state = JSON.stringify(message.state)
         broadcast(ws,state)
-      // }
-      // console.log("broadcasting", data.data,req)
+      }
+    } else if(message.subject === "setName") {
+        server.students.push({student:ws, name:message.name})
+        broadcastNames()
+
     }
   }
-  ws.on('close', data => {
-    clients = clients.filter(cl => cl !== ws )
-    console.log("cleint count3",clients.length)
+  ws.on('close', () => {
+    server.count--;
+    server.students = server.students.filter(cl => cl.student !== ws )
+    broadcastNames()
+
   })
 });
 
+function broadcastNames() {
+  server.clients.forEach(ws=>{
+    ws.send(JSON.stringify({subject:"student_names", students:server.students}))
+  })
+}
+function broadcast(cl, state) {
+  server.clients.forEach(ws => {
+    if (cl !== ws){
+      ws.send(JSON.stringify({subject:"state",state:JSON.parse(state)}));
+      console.log("sent to")
+    }
+  });
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
