@@ -16,6 +16,28 @@ module.exports = (dbHelpers) => {
       .json({ error: err.message });
       });
     });
+  
+  router.get("/teachergames", (req, res) => {
+    const teacher_id = req.session.teacher_id;
+    if (!teacher_id) {
+      res.redirect('/login');
+    }
+    dbHelpers.getTeacherGames(teacher_id)
+    .then(data => {
+      if (data.error){
+        return res
+        .status(409)
+        .json(data)
+      }
+      const teacherGames = data.rows;
+      res.json({ teacherGames });
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
 
   router.post("/register",(req, res) => {
     const teacher = req.body;

@@ -63,10 +63,32 @@ module.exports = db => {
     })
   };
 
+  const getTeacherGames = (teacher_id) => {
+    const querySQL = `SELECT games.id, game_info.title, 
+                      game_info.description, grades.name as grade, sub.name as subject, 
+                      types.name as type, levels.name as level 
+                      FROM games join game_info  on games.id = game_info.game_id
+                      join grades on games.grade_id = grades.id
+                      join subjects sub on games.subject_id = sub.id
+                      join types  on games.type_id = types.id
+                      join levels  on games.level_id = levels.id
+                      WHERE teacher_id = $1`
+    return db.query(querySQL, [teacher_id])
+    .then(res => {
+      if(res.rows){
+        return res;
+      } else {
+        return null
+      }
+    })
+    .catch(err => console.log('error', err))
+  };
+
   return {
     getAllTeachers,
     getTeacherByEmail,
     findTeacher,
-    regTeacher
+    regTeacher,
+    getTeacherGames
   }
 }
