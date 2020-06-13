@@ -38,9 +38,10 @@ app.use(cookieSession({
 //endpoint helpers
 const teacherHelpers = require('./helpers/teacherHelpers')(db);
 const gameHelpers = require('./helpers/gameHelpers')(db);
+const roomHelpers = require("./helpers/generateURLHelpers")(db)
 //endpoints
 app.use('/games', gameRouter(gameHelpers));
-app.use('/', teachersRouter(teacherHelpers));
+app.use('/', teachersRouter(teacherHelpers,roomHelpers));
 
 //websocket
 
@@ -55,7 +56,7 @@ let state = "";
 
 server.on('connection', (ws, req) => {
   server.count++
-
+  console.log("User Connected")
   ws.onmessage= (event) => {
     const message = JSON.parse(event.data);
     if( message.subject === "initial" ) {
