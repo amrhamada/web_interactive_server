@@ -6,7 +6,7 @@ module.exports = db => {
     console.log(url)
     url;
     const query = 'INSERT INTO classroom (teacher_id, url) values ($1,$2) RETURNING id'
-    const values = [id, url];
+    const values = [1, url];
     return db.query(query, values)
     .then(res => {
       if (res.rows) {
@@ -18,6 +18,16 @@ module.exports = db => {
     .catch(err => console.log('error', err))
   };
  
+  const findRoom = (roomKey) => {
+    console.log("hello", roomKey)
+    const querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}'`
+    return db.query(querySQL)
+    .then(res => {
+      console.log(res.rows)
+      return res
+    })
+    .catch(err => console.log('error', err))
+  };
   // get game by id 
   const deleteGame = (id, url) => {
     const querySQL = `DELETE FROM favorites WHERE url = ${url} AND teacher_id = ${id}`
@@ -35,7 +45,8 @@ module.exports = db => {
 
   return {
    generateURL,
-   deleteGame
+   deleteGame,
+   findRoom
  
   }
 }
