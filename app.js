@@ -49,51 +49,55 @@ const WebSocket = require('ws'),
   server = new WebSocket.Server({
     port:12345,
   });
-
-server.students = [];
-server.count = 0 ;
-let state = "";
+server.students = {}
+server.rooms = {};
+// server.count = 0 ;
 
 server.on('connection', (ws, req) => {
-  server.count++
   console.log("User Connected")
   ws.onmessage= (event) => {
     const message = JSON.parse(event.data);
     if( message.subject === "initial" ) {
-        if(server.count === 1) {
+        if(message.teacher) {
+          server.rooms[message.room]= '';
+          ws.room = message.room
+          server.students[message.room] = []
           ws.send(JSON.stringify({subject:"initial"}))
         } else {
+          ws.room = message.room;
           ws.send(JSON.stringify({subject:"welcome"}))
         }
     } else if (message.subject === "receive") {
-        ws.send(JSON.stringify({subject:"state",state:JSON.parse(state)}))
+        ws.send(JSON.stringify({subject:"state",state:JSON.parse(server.rooms[ws.room])}))
     } else if(message.subject === "player_move"){
-      if (state !== JSON.stringify(message.state))  {
-        state = JSON.stringify(message.state)
-        broadcast(ws,state)
+      const sentState = JSON.stringify(message.state)
+      if (server.rooms[ws.room] !== sentState)  {
+        server.rooms[ws.room] = sentState;
+        broadcastState(ws,sentState)
       }
     } else if(message.subject === "setName") {
-        server.students.push({student:ws, name:message.name})
-        broadcastNames()
+        server.students[ws.room].push({student:ws, name:message.name});
+        broadcastNames(ws)
 
     }
   }
   ws.on('close', () => {
     server.count--;
-    server.students = server.students.filter(cl => cl.student !== ws )
-    broadcastNames()
+    server.students[ws.room] = server.students[ws.room].filter(cl => cl.student !== ws )
+    broadcastNames(ws)
 
   })
 });
 
-function broadcastNames() {
+function broadcastNames(cl) {
   server.clients.forEach(ws=>{
-    ws.send(JSON.stringify({subject:"student_names", students:server.students}))
+    if (ws.room === cl.room)
+    ws.send(JSON.stringify({subject:"student_names", students:server.students[cl.room]}))
   })
 }
-function broadcast(cl, state) {
+function broadcastState(cl, state) {
   server.clients.forEach(ws => {
-    if (cl !== ws){
+    if (cl !== ws && ws.room === cl.room ){
       ws.send(JSON.stringify({subject:"state",state:JSON.parse(state)}));
     }
   });

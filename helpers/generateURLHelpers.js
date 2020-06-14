@@ -3,7 +3,6 @@ module.exports = db => {
   // get Teachers
   const generateURL = (id) => {
     const url = crypto.randomBytes(50).toString("hex");
-    console.log(url)
     url;
     const query = 'INSERT INTO classroom (teacher_id, url) values ($1,$2) RETURNING id'
     const values = [1, url];
@@ -19,11 +18,9 @@ module.exports = db => {
   };
  
   const findRoom = (roomKey) => {
-    console.log("hello", roomKey)
     const querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}'`
     return db.query(querySQL)
     .then(res => {
-      console.log(res.rows)
       return res
     })
     .catch(err => console.log('error', err))
