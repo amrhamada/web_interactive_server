@@ -2,9 +2,50 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt')
 
-module.exports = (dbHelpers) => {
+module.exports = (dbHelpers,gameHelpers) => {
   //* GET teachers listing. */
+  router.get("/teacher/createroom", (req, res) => {
+    const id = req.session_teacher_id;
+    gameHelpers.generateURL(id)
+    .then(data => {
+      res.json(data)
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+      });
+  });
+
+  router.get("/teacher/findroom", (req,res) => {
+    const roomKey = req.query.id;
+    console.log("key", roomKey)
+    gameHelpers.findRoom(roomKey)
+    .then(data => {
+      res.json(data.rows.length > 0 )
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+      });
+  });
+
+  router.delete("/teacher/room/:url", (req, res) => {
+    const id = req.session.teacher_id;
+    const url = req.params.url;
+    gameHelpers.deleteGame(id, url)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch(err => {
+      res
+      .status(500)
+      .json({ error: err.message });
+      });
+  });
   router.get("/teachers", (req, res) => {
+    
     dbHelpers.getAllTeachers()
     .then(data => {
       const teachers = data.rows;
