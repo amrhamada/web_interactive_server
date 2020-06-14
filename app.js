@@ -61,6 +61,7 @@ server.on('connection', (ws, req) => {
         if(message.teacher) {
           server.rooms[message.room]= '';
           ws.room = message.room
+          ws.teacher = true;
           server.students[message.room] = []
           ws.send(JSON.stringify({subject:"initial"}))
         } else {
@@ -76,7 +77,7 @@ server.on('connection', (ws, req) => {
         broadcastState(ws,sentState)
       }
     } else if(message.subject === "setName") {
-        server.students[ws.room].push({student:ws, name:message.name});
+        server.students[ws.room].push({student:ws, info:message.student});
         broadcastNames(ws)
 
     }
@@ -84,10 +85,24 @@ server.on('connection', (ws, req) => {
   ws.on('close', () => {
     server.count--;
     server.students[ws.room] = server.students[ws.room].filter(cl => cl.student !== ws )
-    broadcastNames(ws)
-
+    if (ws.teacher) {
+      roomHelpers.deleteRoom(ws.room)
+      .then(()=>{
+        broadCastEndOfSession(ws)        
+      })
+    } else {
+      broadcastNames(ws)
+    }
   })
 });
+
+function broadCastEndOfSession(cl) {
+  server.clients.forEach(ws => {
+    if (cl !== ws && ws.room === cl.room ){
+      ws.send(JSON.stringify({subject:"end-session"}));
+    }
+  });
+}
 
 function broadcastNames(cl) {
   server.clients.forEach(ws=>{

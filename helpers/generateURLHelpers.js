@@ -26,8 +26,8 @@ module.exports = db => {
     .catch(err => console.log('error', err))
   };
   // get game by id 
-  const deleteGame = (id, url) => {
-    const querySQL = `DELETE FROM favorites WHERE url = ${url} AND teacher_id = ${id}`
+  const deleteRoom = (url) => {
+    const querySQL = `DELETE FROM classroom WHERE url = '${url}'`
     return db.query(querySQL)
     .then( res => {
       if (res.rows) {
@@ -42,7 +42,7 @@ module.exports = db => {
 
   return {
    generateURL,
-   deleteGame,
+   deleteRoom,
    findRoom
  
   }
