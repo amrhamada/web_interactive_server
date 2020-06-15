@@ -57,7 +57,7 @@ module.exports = (dbHelpers,gameHelpers) => {
       });
     });
   
-  router.get("/teachergames", (req, res) => {
+  router.get("/teacher/games", (req, res) => {
     const teacher_id = req.session.teacher_id;
     if (!teacher_id) {
       res.redirect('/login');
@@ -110,7 +110,7 @@ module.exports = (dbHelpers,gameHelpers) => {
     dbHelpers.findTeacher(teacher)
     .then((data) => {
       const professor = data.rows;
-      if (professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
+      if (data && professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
         req.session.teacher_id = professor[0].id;
         res.json( { id:`${professor[0].id}`, 
                     first_name:`${professor[0].first_name}`,
