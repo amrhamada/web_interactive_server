@@ -19,7 +19,6 @@ module.exports = (dbHelpers,gameHelpers) => {
 
   router.get("/teacher/findroom", (req,res) => {
     const roomKey = req.query.id;
-    console.log("key", roomKey)
     gameHelpers.findRoom(roomKey)
     .then(data => {
       res.json(data.rows.length > 0 )
