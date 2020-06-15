@@ -18,7 +18,7 @@ module.exports = db => {
   };
  
   // get Teacher by email
-  const getGame = (id) => {
+  const getGame = (userId,id) => {
     const querySQL = 
     `SELECT  b.title, b.description, c.name as subject, d.name as type, e.name as level
 
@@ -27,9 +27,9 @@ module.exports = db => {
                 join subjects c on a.subject_id = c.id
                 join types d on a.type_id = d.id
                 join levels e on a.level_id = e.id 
-                where a.id= $1`
+                where a.id= $1 and teacher_id = $2`
 
-    return db.query(querySQL, [id])
+    return db.query(querySQL, [id, userId])
     .then( res => {
       if (res.rows) {
         return  res

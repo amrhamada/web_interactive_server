@@ -17,26 +17,31 @@ module.exports = (dbHelpers) => {
   });
 
   router.get("/:id",(req, res) => {
-    const id = req.params.id;
-    Promise.all([
-      dbHelpers.getGame(id),
-      dbHelpers.getImagesforGame(id)
-    ])
-    .then((data) => {
-      if (data.error) {
-        return res
-        .status(409)
-        .json(data)
-      }
-      const game = data[0].rows;
-      const images = data[1].rows
-      res.json( {game, images})
-    })
-    .catch((err) => { 
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
+    const gameId = req.params.id;
+    const userId = req.session.teacher_id 
+    if (userId) {
+        Promise.all([
+        dbHelpers.getGame(userId,gameId),
+        dbHelpers.getImagesforGame(gameId)
+      ])
+      .then((data) => {
+        if (data.error) {
+          return res
+          .status(409)
+          .json(data)
+        }
+        const game = data[0].rows;
+        const images = data[1].rows
+        res.json( {game, images})
+      })
+      .catch((err) => { 
+        res
+        .status(500)
+        .json({ error: err.message });
+      });
+    } else {
+      res.sendStatus(401)
+    }
   });
 
   router.post("/login",(req, res) => {

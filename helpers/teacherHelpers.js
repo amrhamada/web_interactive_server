@@ -35,7 +35,7 @@ module.exports = db => {
       if (res.rows.length > 0) {
           return res
         }
-      return;
+      return false;
     })
     .catch(err => console.log('error', err))
   };
