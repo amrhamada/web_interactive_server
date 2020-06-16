@@ -5,29 +5,37 @@ const bcrypt = require('bcrypt')
 module.exports = (dbHelpers,gameHelpers) => {
   //* GET teachers listing. */
   router.get("/teacher/createroom", (req, res) => {
-    const id = req.session_teacher_id;
-    gameHelpers.generateURL(id)
-    .then(data => {
-      res.json(data)
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
+    const id = req.session.teacher_id;
+    console.log("teacher id", id)
+    if (id) {  
+      gameHelpers.generateURL(id)
+      .then(data => {
+        res.json(data)
+      })
+      .catch(err => {
+        res
+        .status(500)
+        .json({ error: err.message });
       });
+    } else res.sendStatus(401);
   });
 
   router.get("/teacher/findroom", (req,res) => {
     const roomKey = req.query.id;
-    gameHelpers.findRoom(roomKey)
+    const isTeacher = req.query.isTeacher;
+    let teacherId;
+    if (isTeacher) {
+      teacherId = req.session.teacher_id;
+    }
+    gameHelpers.findRoom(roomKey,teacherId)
     .then(data => {
       res.json(data.rows.length > 0 )
     })
     .catch(err => {
       res
-      .status(500)
+      .status(400)
       .json({ error: err.message });
-      });
+    });
   });
 
   router.delete("/teacher/room/:url", (req, res) => {
