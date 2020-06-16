@@ -16,6 +16,120 @@ module.exports = (dbHelpers) => {
       });
   });
 
+  router.get("/getLevels",(req, res) => {
+    dbHelpers.getAllLevels()
+    .then((data) => {
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }else {
+        res.json( data.rows)
+      }
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+  router.get("/getSubjects",(req, res) => {
+    dbHelpers.getAllSubjects()
+    .then((data) => {
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }else {
+        res.json( data.rows)
+      }
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
+  router.get("/getGrades",(req, res) => {
+    dbHelpers.getAllGrades()
+    .then((data) => {
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }else {
+        res.json( data.rows)
+      }
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+  router.get("/getTypes",(req, res) => {
+    dbHelpers.getAllTypes()
+    .then((data) => {
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }else {
+        res.json( data.rows)
+      }
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
+  router.get("/getTypes",(req, res) => {
+    dbHelpers.getAllTypes()
+    .then((data) => {
+      if (data.error) {
+        return res
+        .status(409)
+        .json(data)
+      }else {
+        res.json( data.rows)
+      }
+    })
+    .catch((err) => { 
+      res
+      .status(500)
+      .json({ error: err.message });
+    });
+  });
+
+  router.post("/creategame", (req, res) => {
+    const data = req.body;
+    const userId = req.session.teacher_id;
+    if (userId) {
+      dbHelpers.createGame(userId,data)
+      .then(res => {
+        const id = res.rows[0].id
+        dbHelpers.createGameInfo(id, {title:data.title, description:data.description})
+        return id
+      })
+      .then(id => {
+        dbHelpers.createGameImages(id, data)
+      })     
+      .then((data) => {
+         res.sendStatus(201);
+      })
+      .catch((err) => { r
+        res
+        .status(500)
+        .json({ error: err.message });
+      });
+    } else {
+      res.sendStatus(401)
+    }
+  });
+
   router.get("/:id",(req, res) => {
     const gameId = req.params.id;
     const userId = req.session.teacher_id 
@@ -44,25 +158,8 @@ module.exports = (dbHelpers) => {
     }
   });
 
-  router.post("/login",(req, res) => {
-    const teacher = req.body;
-    dbHelpers.findTeacher(teacher)
-    .then((data) => {
-      const professor = data.rows;
-      res.json( { id:`${professor[0].id}`, 
-                  first_name:`${professor[0].first_name}`,
-                  last_name:`${professor[0].last_name}`,
-                  email:`${professor[0].email}`,
-                  avatar:`${professor[0].avatar}`,
-                })
-    })
-    .catch((err) => { 
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
-  });
+
+  
 
   return router;
-
 }

@@ -71,6 +71,7 @@ module.exports = (dbHelpers,gameHelpers) => {
   
   router.get("/teacher/games", (req, res) => {
     const teacher_id = req.session.teacher_id;
+    console.log(teacher_id)
     if (!teacher_id) {
       res.redirect('/login');
     }
@@ -82,6 +83,7 @@ module.exports = (dbHelpers,gameHelpers) => {
         .json(data)
       }
       const teacherGames = data.rows;
+      console.log(data.rows);
       res.json({ teacherGames });
     })
     .catch(err => {
