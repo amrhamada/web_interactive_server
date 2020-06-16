@@ -1,12 +1,13 @@
 module.exports = db => {
   // get Teachers
-  const getAllGames = () => {
+  const getAllGames = (userId) => {
     const querySQL = `SELECT a.id, b.title, b.description, c.name as subject, d.name as type, e.name as level FROM 
       games a join game_info b on a.id = b.game_id
               join subjects c on a.subject_id = c.id
               join types d on a.type_id = d.id
-              join levels e on a.level_id = e.id`
-    return db.query(querySQL)
+              join levels e on a.level_id = e.id
+              where a.teacher_id = $1`
+    return db.query(querySQL,[userId])
     .then(res => {
       if (res.rows) {
         return res
