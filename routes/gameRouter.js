@@ -87,24 +87,6 @@ module.exports = (dbHelpers) => {
     });
   });
 
-  router.get("/getTypes",(req, res) => {
-    dbHelpers.getAllTypes()
-    .then((data) => {
-      if (data.error) {
-        return res
-        .status(409)
-        .json(data)
-      }else {
-        res.json( data.rows)
-      }
-    })
-    .catch((err) => { 
-      res
-      .status(500)
-      .json({ error: err.message });
-    });
-  });
-
   router.post("/creategame", (req, res) => {
     const data = req.body;
     const userId = req.session.teacher_id;
