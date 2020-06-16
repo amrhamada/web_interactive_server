@@ -38,7 +38,7 @@ module.exports = db => {
       return null
       }
     })
-    .catch(err => console.log('error amr1', err))
+    .catch(err => console.log('error', err))
   };
   
   const getAllLevels = () => {
@@ -112,7 +112,7 @@ module.exports = db => {
     .then(dbRes => {
       return dbRes
     })
-    .catch(err => {console.log("error here", err)})
+    .catch(err => {console.log("error", err)})
   }
   function createGameInfo(gameId, {title,description}) {
     const query = `INSERT INTO game_info (game_id, title, description) VALUES ($1, $2, $3) RETURNING *;`;
@@ -121,7 +121,7 @@ module.exports = db => {
     .then(dbRes => {
       return dbRes
     })
-    .catch(err => {console.log("error here", err)})
+    .catch(err => {console.log("error", err)})
   }
   function createGameImages(id, data){
     const values = [];

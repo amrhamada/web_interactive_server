@@ -6,7 +6,6 @@ module.exports = (dbHelpers,gameHelpers) => {
   //* GET teachers listing. */
   router.get("/teacher/createroom", (req, res) => {
     const id = req.session.teacher_id;
-    console.log("teacher id", id)
     if (id) {  
       gameHelpers.generateURL(id)
       .then(data => {
@@ -21,18 +20,14 @@ module.exports = (dbHelpers,gameHelpers) => {
   });
 
   router.get("/teacher/findroom", (req,res) => {
-    console.log("the query paramters are ", req.query)
     const roomKey = req.query.id;
     const isTeacher = req.query.isTeacher;
-    console.log("checking if teacher", isTeacher)
     let teacherId = false;
     if (isTeacher === "true") {
-      console.log("why is here")
       teacherId = req.session.teacher_id;
     }
     gameHelpers.findRoom(roomKey,teacherId)
     .then(data => {
-      console.log("the resonse from the query is:", data.rows)
       res.json(data.rows.length > 0 )
     })
     .catch(err => {
@@ -71,7 +66,6 @@ module.exports = (dbHelpers,gameHelpers) => {
   
   router.get("/teacher/games", (req, res) => {
     const teacher_id = req.session.teacher_id;
-    console.log(teacher_id)
     if (!teacher_id) {
       res.redirect('/login');
     }
@@ -83,7 +77,6 @@ module.exports = (dbHelpers,gameHelpers) => {
         .json(data)
       }
       const teacherGames = data.rows;
-      console.log(data.rows);
       res.json({ teacherGames });
     })
     .catch(err => {

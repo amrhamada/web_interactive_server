@@ -41,7 +41,7 @@ module.exports = db => {
       return null
       }
     })
-    .catch(err => console.log('error amr', err))
+    .catch(err => console.log('error', err))
   };
   
 
