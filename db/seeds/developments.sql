@@ -62,7 +62,7 @@ INSERT INTO game_images (id, game_id, image) VALUES
 
 INSERT INTO game_info (id, game_id, title, description) VALUES
 (1, 1, 'how many fingers','numbers with fingers'),
-(2, 2, 'how many fishes','numbers in fishbowl'),
+(2, 2, 'how many fish','numbers in fishbowl'),
 (3, 3, 'vowels','find the vowels');
 
 ALTER SEQUENCE teachers_id_seq RESTART WITH 11;
