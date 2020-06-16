@@ -19,18 +19,13 @@ module.exports = db => {
  
   const findRoom = (roomKey,teacherId) => {
     let querySQL;
-    console.log("is it really a teacher?", teacherId)
     if (teacherId) {
-      console.log("running query 1")
       querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}' and teacher_id = ${teacherId}`
     } else {
-      console.log("running query 2")
-
       querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}'`
     }
       return db.query(querySQL)
     .then(res => {
-      console.log("anything coming back",res.id)
       return res
     })
     .catch(err => console.log('error', err))
