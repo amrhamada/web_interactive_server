@@ -21,14 +21,18 @@ module.exports = (dbHelpers,gameHelpers) => {
   });
 
   router.get("/teacher/findroom", (req,res) => {
+    console.log("the query paramters are ", req.query)
     const roomKey = req.query.id;
     const isTeacher = req.query.isTeacher;
-    let teacherId;
-    if (isTeacher) {
+    console.log("checking if teacher", isTeacher)
+    let teacherId = false;
+    if (isTeacher === "true") {
+      console.log("why is here")
       teacherId = req.session.teacher_id;
     }
     gameHelpers.findRoom(roomKey,teacherId)
     .then(data => {
+      console.log("the resonse from the query is:", data.rows)
       res.json(data.rows.length > 0 )
     })
     .catch(err => {

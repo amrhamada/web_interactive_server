@@ -72,7 +72,7 @@ module.exports = db => {
                       join subjects sub on games.subject_id = sub.id
                       join types  on games.type_id = types.id
                       join levels  on games.level_id = levels.id
-                      WHERE teacher_id = $1`
+                      WHERE games.teacher_id = $1`
     return db.query(querySQL, [teacher_id])
     .then(res => {
       if(res.rows){
