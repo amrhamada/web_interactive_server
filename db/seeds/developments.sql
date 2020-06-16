@@ -1,7 +1,7 @@
 -- Teachers table seeds here (Example)
 INSERT INTO teachers (id, first_name, last_name, email, avatar, password) VALUES 
 (1, 'Lera','Hahn','lera_hahn@dickens.org','https://i.imgur.com/LpaY82x.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
-(2, 'Darius','Homenick','darius.homenick@tod.ca','https://i.imgur.com/Nmx0Qxo.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
+(2, 'Andre','Homenick','andre@mail.ca','https://i.imgur.com/Nmx0Qxo.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
 (3, 'Mcdermott','Maxie','mcdermott.maxie@schoen.com','https://i.imgur.com/T2WwVfS.png','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
 (4, 'Derrick','Pollich','derrick.pollich@gmail.com','https://i.imgur.com/FK8V841.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
 (5, 'Ebba','Deckow','ebba.deckow@yahoo.com','https://i.imgur.com/twYrpay.jpg','$2b$10$3bVZCzLy2/9d9Al9tIhTe.7AezvGPohGkmOH3frHPEamCCtMbovy.'),
@@ -61,9 +61,9 @@ INSERT INTO game_images (id, game_id, image) VALUES
 (18, 3, 'https://i.imgur.com/euq78Fz.png');
 
 INSERT INTO game_info (id, game_id, title, description) VALUES
-(1, 1, 'how many fingers','numbers with fingers'),
-(2, 2, 'how many fishes','numbers in fishbowl'),
-(3, 3, 'vowels','find the vowels');
+(1, 1, 'Counting','Recognizing quantities '),
+(2, 2, 'Association','Quantities in the fishbowl'),
+(3, 3, 'Vowels','Find the vowels');
 
 ALTER SEQUENCE teachers_id_seq RESTART WITH 11;
 ALTER SEQUENCE grades_id_seq RESTART WITH 4;
