@@ -5,29 +5,37 @@ const bcrypt = require('bcrypt')
 module.exports = (dbHelpers,gameHelpers) => {
   //* GET teachers listing. */
   router.get("/teacher/createroom", (req, res) => {
-    const id = req.session_teacher_id;
-    gameHelpers.generateURL(id)
-    .then(data => {
-      res.json(data)
-    })
-    .catch(err => {
-      res
-      .status(500)
-      .json({ error: err.message });
+    const id = req.session.teacher_id;
+    console.log("teacher id", id)
+    if (id) {  
+      gameHelpers.generateURL(id)
+      .then(data => {
+        res.json(data)
+      })
+      .catch(err => {
+        res
+        .status(500)
+        .json({ error: err.message });
       });
+    } else res.sendStatus(401);
   });
 
   router.get("/teacher/findroom", (req,res) => {
     const roomKey = req.query.id;
-    gameHelpers.findRoom(roomKey)
+    const isTeacher = req.query.isTeacher;
+    let teacherId;
+    if (isTeacher) {
+      teacherId = req.session.teacher_id;
+    }
+    gameHelpers.findRoom(roomKey,teacherId)
     .then(data => {
       res.json(data.rows.length > 0 )
     })
     .catch(err => {
       res
-      .status(500)
+      .status(400)
       .json({ error: err.message });
-      });
+    });
   });
 
   router.delete("/teacher/room/:url", (req, res) => {
@@ -57,7 +65,7 @@ module.exports = (dbHelpers,gameHelpers) => {
       });
     });
   
-  router.get("/teachergames", (req, res) => {
+  router.get("/teacher/games", (req, res) => {
     const teacher_id = req.session.teacher_id;
     if (!teacher_id) {
       res.redirect('/login');
@@ -110,7 +118,7 @@ module.exports = (dbHelpers,gameHelpers) => {
     dbHelpers.findTeacher(teacher)
     .then((data) => {
       const professor = data.rows;
-      if (professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
+      if (data && professor[0].email === teacher.email && bcrypt.compareSync(teacher.password, professor[0].password)) {
         req.session.teacher_id = professor[0].id;
         res.json( { id:`${professor[0].id}`, 
                     first_name:`${professor[0].first_name}`,

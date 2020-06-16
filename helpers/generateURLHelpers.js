@@ -5,7 +5,7 @@ module.exports = db => {
     const url = crypto.randomBytes(50).toString("hex");
     url;
     const query = 'INSERT INTO classroom (teacher_id, url) values ($1,$2) RETURNING id'
-    const values = [1, url];
+    const values = [id, url];
     return db.query(query, values)
     .then(res => {
       if (res.rows) {
@@ -17,9 +17,14 @@ module.exports = db => {
     .catch(err => console.log('error', err))
   };
  
-  const findRoom = (roomKey) => {
-    const querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}'`
-    return db.query(querySQL)
+  const findRoom = (roomKey,teacherId) => {
+    let querySQL;
+    if (teacherId) {
+      querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}' and teacher_id = ${teacherId}`
+    } else {
+      querySQL = `SELECT id FROM classroom WHERE url = '${roomKey}'`
+    }
+      return db.query(querySQL)
     .then(res => {
       return res
     })
