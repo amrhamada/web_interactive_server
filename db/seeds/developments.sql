@@ -51,19 +51,19 @@ INSERT INTO game_images (id, game_id, image) VALUES
 (8, 2, 'https://i.imgur.com/GW08WYY.png'),
 (9, 2, 'https://i.imgur.com/d6MUltZ.png'),
 (10, 2, 'https://i.imgur.com/bCA6yKg.png'),
-(11, 3, 'https://i.imgur.com/Z9urASO.png'),
-(12, 3, 'https://i.imgur.com/oE2aeEf.png'),
-(13, 3, 'https://i.imgur.com/1nipnkq.png'),
-(14, 3, 'https://i.imgur.com/Y0b45XF.png'),
-(15, 3, 'https://i.imgur.com/1K8AKhI.png'),
-(16, 3, 'https://i.imgur.com/Qz7IX3x.png'),
-(17, 3, 'https://i.imgur.com/I9zmFor.png'),
-(18, 3, 'https://i.imgur.com/euq78Fz.png');
+(11, 3, 'https://i.imgur.com/j7Cv2DD.png'),
+(12, 3, 'https://i.imgur.com/rdg7ALz.png'),
+(13, 3, 'https://i.imgur.com/KPBmt5v.png'),
+(14, 3, 'https://i.imgur.com/fJZeY1m.png'),
+(15, 3, 'https://i.imgur.com/PZmnc6c.png'),
+(16, 3, 'https://i.imgur.com/UhFyDuK.png'),
+(17, 3, 'https://i.imgur.com/op8sQHl.png'),
+(18, 3, 'https://i.imgur.com/oOPaSc5.png');
 
 INSERT INTO game_info (id, game_id, title, description) VALUES
 (1, 1, 'Counting','Recognizing quantities '),
 (2, 2, 'Association','Quantities in the fishbowl'),
-(3, 3, 'Vowels','Find the vowels');
+(3, 3, 'Animals','Find the animals');
 
 ALTER SEQUENCE teachers_id_seq RESTART WITH 11;
 ALTER SEQUENCE grades_id_seq RESTART WITH 4;
