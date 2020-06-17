@@ -105,6 +105,10 @@ module.exports = db => {
     .catch(err => console.log('error', err))
   }
 
+  function deleteGame(teacherId, gameId) {
+    return db.query(`DELETE FROM games WHERE id = ${gameId} and teacher_id = ${teacherId}`)
+  };
+
   function createGame(teacherId, data) {
     const query = `INSERT INTO games (grade_id, subject_id, type_id, teacher_id, level_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
     const values = [data.grade, data.subject, data.type, teacherId, data.level];
@@ -142,6 +146,8 @@ module.exports = db => {
       .catch(err => {console.log("error here3", err)})
 
   }
+
+
   return {
     getAllGames,
     getGame,
@@ -152,6 +158,7 @@ module.exports = db => {
     getAllTypes,
     createGame,
     createGameImages,
-    createGameInfo
+    createGameInfo,
+    deleteGame
   }
 }

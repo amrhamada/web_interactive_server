@@ -87,6 +87,25 @@ module.exports = (dbHelpers) => {
     });
   });
 
+  router.delete("/deletegame", (req, res) =>{
+    const userId = req.session.teacher_id;
+    console.log(userId);
+    const gameId = req.body.id 
+    if (userId) {
+      dbHelpers.deleteGame(userId,gameId)
+      .then((data) => {
+          res.sendStatus(204);
+      })
+      .catch((err) => { r
+        res
+        .status(500)
+        .json({ error: err.message });
+      });
+      } else {
+        res.sendStatus(401)
+      }
+  });
+
   router.post("/creategame", (req, res) => {
     const data = req.body;
     const userId = req.session.teacher_id;
