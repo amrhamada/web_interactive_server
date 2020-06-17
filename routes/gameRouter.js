@@ -4,8 +4,9 @@ const router = express.Router();
 module.exports = (dbHelpers) => {
 /* GET teachers listing. */
   router.get("/", (req, res) => {
+    const games = req.query.games
     const userId = req.session.teacher_id;
-    dbHelpers.getAllGames(userId)
+    dbHelpers.getAllGames(userId,games)
     .then(data => {
       const games = data.rows;
       res.json( games);
